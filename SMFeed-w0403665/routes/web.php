@@ -12,6 +12,7 @@
 */
 
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
 
 Route::get('/', function () {
@@ -27,7 +28,7 @@ Route::resource('/managers','UserController');
 Route::resource('/posts','PostController');
 
 
-
+//
 Route::group(['middleware'=>['RoleCheck']],function (){
     Route::resource('/managers','UserController');
 });
@@ -37,12 +38,12 @@ Route::group(['middleware'=>['ThemeCheck']],function (){
 });
 
 //create a route to handle the theme dropdown
-// Route::post('/theme/change', 'ThemeController@change');
+Route::post('/theme/change', function() {
+//     Cookie::queue('themeUrl', request()->input('theme'), 3600);
+//    return redirect()->back();
+    $themeId=request()->input('theme');
+    $themeCookie=Cookie::forever('themeId', $themeId);
 
-Route::post('/theme/change', function(){
-
-    Cookie::queue('TestCookie', request()->input('theme'), 3600);
-
-    return redirect('/themes');
-
+    return redirect()->back()->cookie($themeCookie);
 });
+

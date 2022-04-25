@@ -5,23 +5,22 @@ namespace App\Http\Controllers;
 use App\Theme;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cookie;
 
 class ThemeController extends Controller
 {
+//    public  function __construct(){
+//
+//        $this->middleware('auth');
+//        $this->middleware('ThemeCheck');
+//
+//    }
+
     public function index()
     {
 
        $themes=\App\Theme::all();
+
         return view('theme.index', compact('themes'));
-
-    }
-
-    public function change(){
-
-        $theme = request()->input('theme');
-        Cookie::queue('TestCookie', $theme, 3600);
-        return redirect('themes');
 
     }
 

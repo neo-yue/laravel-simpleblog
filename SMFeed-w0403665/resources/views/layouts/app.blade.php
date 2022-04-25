@@ -1,11 +1,8 @@
-
-
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -20,7 +17,12 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
-    <link href="{{Cookie::get('TestCookie')}}" rel="stylesheet">
+    @if($themeUrl!=null)
+        <link href="{{$themeUrl->cdn_url}}" rel="stylesheet">
+    @else
+        <link href="{{asset('css/app.css')}}" rel="stylesheet">
+    @endif
+
 </head>
 <body>
     <div id="app">
@@ -43,11 +45,7 @@
                                 <select name="theme" id="theme" onchange="fn()">
                                     <option value="" rel="stylesheet">default</option>
                                     @foreach($themes as $theme)
-                                        @if ($theme->cdn_url == Cookie::get('TestCookie'))
-                                        <option value="{{$theme->cdn_url}} " selected rel="stylesheet">{{$theme->name}}</option>
-                                        @else
-                                        <option value="{{$theme->cdn_url}} " rel="stylesheet">{{$theme->name}}</option>
-                                        @endif
+                                        <option value="{{$theme->id}} " rel="stylesheet">{{$theme->name}}</option>
                                     @endforeach
                                 </select>
                             </form>
